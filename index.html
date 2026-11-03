@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turnos: que no se te caigan más clientes</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F7F6;--card:#FFFFFF;--ink:#10282A;--mute:#587073;--line:#D5E2E1;--acc:#0B7A75;--accink:#FFFFFF;--ok:#12805C;--mid:#A86400;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1819;--card:#122527;--ink:#E4F2F1;--mute:#93B0B2;--line:#21403F;--acc:#3FC9BF;--accink:#08201F;--ok:#4BD8A3;--mid:#F2B04A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1819;--card:#122527;--ink:#E4F2F1;--mute:#93B0B2;--line:#21403F;--acc:#3FC9BF;--accink:#08201F;--ok:#4BD8A3;--mid:#F2B04A;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:560px;margin:0 auto;padding:28px 18px 56px}
+.brand{font-weight:800;font-size:18px;letter-spacing:-.01em;color:var(--acc)}
+h1{font-size:40px;line-height:1.04;font-weight:800;letter-spacing:-.03em;margin:18px 0 12px}
+.lead{color:var(--mute);margin:0 0 22px;font-size:18px}
+a.btn{display:block;text-align:center;background:var(--acc);color:var(--accink);font-weight:800;font-size:18px;text-decoration:none;padding:16px 18px;border-radius:14px}
+a.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.small{font-size:14px;color:var(--mute);margin:10px 0 0;text-align:center}
+.phone{margin:30px 0;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 14px 34px rgba(16,40,42,.12)}
+.ph-h{display:flex;justify-content:space-between;font-size:13px;color:var(--mute);margin-bottom:10px}
+.tn{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.tn:first-of-type{border-top:0}
+.hr{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.nm{font-weight:600}
+.mt{font-size:14px;color:var(--mute)}
+.pl{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;margin-left:6px}
+.ok{color:var(--ok)}.mid{color:var(--mid)}
+.wb{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;background:var(--acc);color:var(--accink);padding:6px 11px;border-radius:8px}
+h2{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:32px 0 10px}
+ul{list-style:none;padding:0;margin:0}
+li{padding:12px 0;border-top:1px solid var(--line)}
+li:first-child{border-top:0}
+li b{display:block}
+li span{color:var(--mute);font-size:16px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:30px}
+.box p{margin:0 0 14px}
+footer{margin-top:30px;font-size:13px;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<div class="brand">Turnos</div>
+<h1>Que no se te caigan más turnos</h1>
+<p class="lead">Una agenda simple para peluquerías, barberías y consultorios. Cargás el turno y mandás el recordatorio por WhatsApp en un toque.</p>
+<a class="btn" id="c1" target="_blank" rel="noopener" href="https://wa.me/5493584197617?text=Hola%2C%20quiero%20acceso%20anticipado%20a%20Turnos%20con%20descuento%20de%20lanzamiento.%20Mi%20negocio%20es%3A%20">Quiero acceso anticipado</a>
+<p class="small">Escribinos por WhatsApp. Es gratis consultar.</p>
+
+<div class="phone" aria-label="Ejemplo de la agenda del día">
+<div class="ph-h"><span>Agenda de hoy</span><span>3 turnos</span></div>
+<div class="tn"><div class="hr">10:00</div><div><div class="nm">Lucía<span class="pl ok">Confirmado</span></div><div class="mt">Corte</div></div></div>
+<div class="tn"><div class="hr">11:30</div><div><div class="nm">Martín<span class="pl mid">Sin confirmar</span></div><div class="mt">Barba</div><span class="wb">Recordar por WhatsApp</span></div></div>
+<div class="tn"><div class="hr">15:00</div><div><div class="nm">Carla<span class="pl ok">Confirmado</span></div><div class="mt">Color</div></div></div>
+</div>
+
+<h2>Lo que hace por tu negocio</h2>
+<ul>
+<li><b>Recordatorio en un toque</b><span>Se abre WhatsApp con el mensaje listo: nombre, día, hora y servicio. Solo apretás enviar.</span></li>
+<li><b>Tu día de un vistazo</b><span>Ves quién viene, quién confirmó y cuánto vas a facturar hoy.</span></li>
+<li><b>Sin instalar nada</b><span>Funciona desde el celular, con tus servicios y precios.</span></li>
+</ul>
+
+<div class="box">
+<p><b>Estamos terminando la versión completa</b> con reservas online y recordatorios automáticos. Quienes escriban primero tienen descuento de lanzamiento y pueden pedir una demo de la agenda.</p>
+<a class="btn" id="c2" target="_blank" rel="noopener" href="https://wa.me/5493584197617?text=Hola%2C%20quiero%20ver%20una%20demo%20de%20Turnos.%20Mi%20negocio%20es%3A%20">Pedir una demo</a>
+</div>
+<footer>Turnos está en desarrollo. Todavía no se cobra nada.</footer>
+</main>
+</body>
+</html>

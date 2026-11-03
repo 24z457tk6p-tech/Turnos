@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turnos: agenda y recordatorios por WhatsApp</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F7F6;--card:#FFFFFF;--ink:#10282A;--mute:#587073;--line:#D5E2E1;--acc:#0B7A75;--accink:#FFFFFF;--ok:#12805C;--mid:#A86400;--bad:#C03A3A;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1819;--card:#122527;--ink:#E4F2F1;--mute:#93B0B2;--line:#21403F;--acc:#3FC9BF;--accink:#08201F;--ok:#4BD8A3;--mid:#F2B04A;--bad:#FF8484;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1819;--card:#122527;--ink:#E4F2F1;--mute:#93B0B2;--line:#21403F;--acc:#3FC9BF;--accink:#08201F;--ok:#4BD8A3;--mid:#F2B04A;--bad:#FF8484;color-scheme:dark}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 Manrope,system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:600px;margin:0 auto;padding:18px 16px 48px}
+h1{font-size:26px;font-weight:800;margin:0;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:2px 0 14px;font-size:14px}
+nav{display:flex;gap:6px;margin-bottom:14px}
+nav button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 4px;border-radius:10px;font:inherit;font-weight:600;font-size:14px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+label.f{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+input,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+.stats b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.stats span{font-size:12px;color:var(--mute)}
+.seg{display:flex;gap:6px;margin-bottom:12px}
+.seg button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px 4px;border-radius:9px;font:inherit;font-size:14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.t{display:grid;grid-template-columns:62px 1fr;gap:12px}
+.hr{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.dt{font-size:12px;color:var(--mute)}
+.nm{font-weight:600}
+.meta{font-size:14px;color:var(--mute)}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid currentColor;margin-left:6px}
+.ok{color:var(--ok)}.mid{color:var(--mid)}.bad{color:var(--bad)}.mu{color:var(--mute)}
+.acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{display:inline-block;border:0;background:var(--acc);color:var(--accink);font:inherit;font-weight:600;font-size:14px;padding:9px 14px;border-radius:9px;cursor:pointer;text-decoration:none}
+.btn.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.acts select{width:auto;padding:8px 10px;font-size:14px}
+.empty{color:var(--mute);text-align:center;padding:24px 8px}
+.srow{display:grid;grid-template-columns:1fr 70px 90px 36px;gap:6px;margin-bottom:8px}
+.srow.h{font-size:12px;color:var(--mute);margin-bottom:2px}
+.warn{color:var(--mid);font-size:14px;margin:8px 0 0;min-height:1em}
+.note{font-size:13px;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<h1 id="ttl">Turnos</h1>
+<p class="sub">Agenda y recordatorios por WhatsApp</p>
+<nav role="tablist" aria-label="Secciones">
+<button role="tab" data-t="ag" aria-selected="true">Agenda</button>
+<button role="tab" data-t="nu" aria-selected="false">Nuevo turno</button>
+<button role="tab" data-t="sv" aria-selected="false">Mi negocio</button>
+</nav>
+
+<section id="ag" class="on">
+<div class="stats">
+<div><b id="s1">0</b><span>turnos hoy</span></div>
+<div><b id="s2">0</b><span>sin confirmar</span></div>
+<div><b id="s3">$0</b><span>estimado hoy</span></div>
+</div>
+<div class="seg" id="flt">
+<button aria-pressed="true" data-f="hoy">Hoy</button>
+<button aria-pressed="false" data-f="prox">Próximos</button>
+<button aria-pressed="false" data-f="pas">Pasados</button>
+</div>
+<div id="list" aria-live="polite"></div>
+</section>
+
+<section id="nu">
+<div class="card">
+<label class="f" for="c">Cliente</label>
+<input id="c" type="text" autocomplete="off" placeholder="Nombre">
+<label class="f" for="ph">WhatsApp (con código de país, sin + ni espacios)</label>
+<input id="ph" type="tel" inputmode="numeric" placeholder="5491122334455">
+<label class="f" for="s">Servicio</label>
+<select id="s"></select>
+<div class="g2">
+<div><label class="f" for="d">Fecha</label><input id="d" type="date"></div>
+<div><label class="f" for="h">Hora</label><input id="h" type="time" value="10:00"></div>
+</div>
+<p class="warn" id="wn" aria-live="polite"></p>
+<div class="acts"><button class="btn" id="sv1">Guardar turno</button></div>
+</div>
+</section>
+
+<section id="sv">
+<div class="card">
+<label class="f" for="bz">Nombre del negocio</label>
+<input id="bz" type="text" placeholder="Ej: Peluquería Marta">
+</div>
+<div class="card">
+<div class="srow h"><span>Servicio</span><span>Minutos</span><span>Precio</span><span></span></div>
+<div id="sr"></div>
+<button class="btn g" id="as">Agregar servicio</button>
+</div>
+<p class="note">Los datos se guardan en este navegador y dispositivo. Los recordatorios abren WhatsApp con el mensaje listo y vos tocás enviar: todavía no se mandan solos.</p>
+</section>
+</main>
+
+<script>
+function $(i){return document.getElementById(i)}
+var DB={biz:"",svc:[{n:"Corte",m:30,p:8000},{n:"Color",m:90,p:25000},{n:"Barba",m:20,p:4000}],t:[]};
+try{var raw=localStorage.getItem("trn");if(raw){var o=JSON.parse(raw);if(o&&o.svc&&o.t)DB=o}}catch(e){}
+function save(){try{localStorage.setItem("trn",JSON.stringify(DB))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function iso(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(x<10?"0":"")+x}
+function today(){return iso(new Date())}
+function money(n){return"$"+Math.round(n).toLocaleString("es-AR")}
+function fdate(s){var p=s.split("-");var d=new Date(+p[0],+p[1]-1,+p[2]);return d.toLocaleDateString("es-AR",{weekday:"short",day:"numeric",month:"short"})}
+var ST={pen:["Sin confirmar","mid"],con:["Confirmado","ok"],hec:["Hecho","mu"],nov:["No vino","bad"],can:["Cancelado","mu"]};
+var flt="hoy";
+// tabs
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
+document.querySelectorAll("nav button").forEach(function(x){x.setAttribute("aria-selected",x===b)});
+document.querySelectorAll("section").forEach(function(s){s.classList.toggle("on",s.id===b.dataset.t)});window.scrollTo(0,0)}});
+// filter
+$("flt").onclick=function(e){var b=e.target.closest("button");if(!b)return;flt=b.dataset.f;
+this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});render()};
+function price(name){for(var i=0;i<DB.svc.length;i++)if(DB.svc[i].n===name)return DB.svc[i].p;return 0}
+function wa(t){var biz=DB.biz||"nuestro local";
+var msg="Hola "+t.c+", te recordamos tu turno en "+biz+" el "+fdate(t.d)+" a las "+t.h+" ("+t.s+"). Respondé 1 para confirmar o 2 si necesitás cancelar. ¡Gracias!";
+return"https://wa.me/"+t.ph.replace(/\D/g,"")+"?text="+encodeURIComponent(msg)}
+function render(){
+var td=today(),all=DB.t.slice().sort(function(a,b){return(a.d+a.h)<(b.d+b.h)?-1:1});
+var th=all.filter(function(t){return t.d===td});
+$("s1").textContent=th.filter(function(t){return t.st!=="can"}).length;
+$("s2").textContent=all.filter(function(t){return t.st==="pen"&&t.d>=td}).length;
+$("s3").textContent=money(th.reduce(function(a,t){return a+(t.st==="can"||t.st==="nov"?0:price(t.s))},0));
+var L=flt==="hoy"?th:flt==="prox"?all.filter(function(t){return t.d>td}):all.filter(function(t){return t.d<td}).reverse();
+if(!L.length){$("list").innerHTML='<div class="empty">'+(flt==="hoy"?"No hay turnos para hoy. Cargá uno en “Nuevo turno”.":flt==="prox"?"No hay turnos próximos.":"No hay turnos pasados.")+"</div>";return}
+var h="";L.forEach(function(t){var s=ST[t.st]||ST.pen;
+var opts="";Object.keys(ST).forEach(function(k){opts+='<option value="'+k+'"'+(k===t.st?" selected":"")+">"+ST[k][0]+"</option>"});
+h+='<div class="card"><div class="t"><div><div class="hr">'+esc(t.h)+'</div><div class="dt">'+fdate(t.d)+'</div></div><div><div class="nm">'+esc(t.c)+'<span class="pill '+s[1]+'">'+s[0]+'</span></div><div class="meta">'+esc(t.s)+" · "+money(price(t.s))+'</div></div></div><div class="acts"><a class="btn" target="_blank" rel="noopener" href="'+wa(t)+'">Recordar por WhatsApp</a><select data-id="'+t.id+'" aria-label="Estado del turno">'+opts+'</select><button class="btn g" data-del="'+t.id+'">Borrar</button></div></div>'});
+$("list").innerHTML=h}
+$("list").addEventListener("change",function(e){var id=e.target.dataset.id;if(!id)return;DB.t.forEach(function(t){if(t.id==id)t.st=e.target.value});save();render()});
+$("list").addEventListener("click",function(e){var id=e.target.dataset.del;if(!id)return;DB.t=DB.t.filter(function(t){return t.id!=id});save();render()});
+// nuevo turno
+function sopts(){$("s").innerHTML=DB.svc.map(function(v){return"<option>"+esc(v.n)+"</option>"}).join("")}
+$("d").value=today();
+function chk(){var d=$("d").value,h=$("h").value;var c=DB.t.some(function(t){return t.d===d&&t.h===h&&t.st!=="can"});
+$("wn").textContent=c?"Ya hay un turno en ese horario. Podés guardarlo igual si querés.":"";}
+$("d").onchange=chk;$("h").onchange=chk;
+$("sv1").onclick=function(){var c=$("c").value.trim(),ph=$("ph").value.replace(/\D/g,""),d=$("d").value,h=$("h").value;
+if(!c||ph.length<8||!d||!h||!$("s").value){$("wn").textContent="Completá cliente, un WhatsApp válido, servicio, fecha y hora.";return}
+DB.t.push({id:Date.now(),c:c,ph:ph,s:$("s").value,d:d,h:h,st:"pen"});save();
+$("c").value="";$("ph").value="";$("wn").textContent="";
+flt=d===today()?"hoy":"prox";$("flt").querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x.dataset.f===flt)});
+render();document.querySelector('nav button[data-t="ag"]').click()};
+// negocio
+function title(){$("ttl").textContent=DB.biz||"Turnos"}
+$("bz").value=DB.biz;$("bz").oninput=function(){DB.biz=this.value;save();title()};title();
+function srows(){$("sr").innerHTML=DB.svc.map(function(v,i){return'<div class="srow"><input type="text" aria-label="Servicio" value="'+esc(v.n)+'" data-i="'+i+'" data-k="n"><input type="number" aria-label="Minutos" min="5" value="'+v.m+'" data-i="'+i+'" data-k="m"><input type="number" aria-label="Precio" min="0" value="'+v.p+'" data-i="'+i+'" data-k="p"><button class="btn g" data-r="'+i+'" aria-label="Quitar servicio" style="padding:0">×</button></div>'}).join("")}
+$("sr").addEventListener("input",function(e){var t=e.target;if(t.dataset.i===undefined)return;var v=DB.svc[+t.dataset.i];v[t.dataset.k]=t.dataset.k==="n"?t.value:(+t.value||0);save();sopts();render()});
+$("sr").addEventListener("click",function(e){var i=e.target.dataset.r;if(i===undefined||DB.svc.length<2)return;DB.svc.splice(+i,1);save();srows();sopts();render()});
+$("as").onclick=function(){DB.svc.push({n:"Servicio nuevo",m:30,p:0});save();srows();sopts()};
+srows();sopts();render();
+</script>
+</body>
+</html>
